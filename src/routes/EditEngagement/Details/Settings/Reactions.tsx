@@ -26,7 +26,7 @@ function PostReactions() {
           <Badge
             key={reaction}
             icon={Icon}
-            remove={() => handleRemoveReaction('positive')}
+            remove={() => handleRemoveReaction(reaction)}
           >
             {reaction}
           </Badge>

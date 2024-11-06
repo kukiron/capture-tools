@@ -197,7 +197,7 @@ function PostEngagements() {
       : tableItems
   ).map(({ name, unique, engaged, ...rest }) => ({
     name,
-    'engaged/unique': `${engaged}/${unique}`,
+    'engaged / unique': `${engaged} / ${unique}`,
     ...rest,
   }));
 
