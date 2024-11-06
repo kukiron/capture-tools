@@ -1,5 +1,5 @@
 import { KeywordsInput, ToggleSwitch } from 'components';
-import PrivateReplies from './PrivateReplies';
+import PrivateMessages from './PrivateMessages';
 import PostReactions from './Reactions';
 
 function Settings() {
@@ -15,7 +15,7 @@ function Settings() {
         <br />
         <KeywordsInput label="Only Trigger For Comments With These Keywords" />
         <br />
-        <PrivateReplies />
+        <PrivateMessages />
       </div>
       <br />
     </>

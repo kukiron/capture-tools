@@ -1,7 +1,7 @@
 import { delay } from 'lib/common';
 
-import POST_ENGAGEMENT_DATA from 'data/json/post-engagement.json';
 import { PostEngagement } from 'store/types';
+import POST_ENGAGEMENT_DATA from './json/post-engagement.json';
 
 enum AppDataType {
   POST_ENGAGEMENT = 'post-engagement',
@@ -48,7 +48,7 @@ export const fetchPostEngagementData = async (): Promise<
     console.log('Error fetching post engagements:', error);
     return {
       success: false,
-      message: 'Failed to fetch pot engagements.',
+      message: 'Failed to fetch post engagements.',
     };
   }
 };

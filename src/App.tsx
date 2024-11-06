@@ -51,14 +51,8 @@ function App() {
           element={<EditEngagement />}
         />
 
-        {/* Redirect to default route */}
-        {['/', '*'].map((path) => (
-          <Route
-            key={path}
-            path={path}
-            element={<Navigate replace to={DEFAULT_ROUTE} />}
-          />
-        ))}
+        {/* root route redirects to app default route */}
+        <Route path="/" element={<Navigate replace to={DEFAULT_ROUTE} />} />
       </Routes>
     </AppContainer>
   );

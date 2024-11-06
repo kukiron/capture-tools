@@ -5,7 +5,7 @@ const MESSAGE_TYPES = ['Flow', 'Single Message'];
 const MESSAGE_FLOWS = ['Welcome Message', 'Default Reply'];
 const SINGLE_MESSAGES = ['Text Card #1', 'Text Card #2'];
 
-function PrivateReplies() {
+function PrivateMessages() {
   const [seletedITems, setSelectedItems] = useState<string[]>([
     MESSAGE_TYPES[0],
     '',
@@ -65,4 +65,4 @@ function PrivateReplies() {
   );
 }
 
-export default PrivateReplies;
+export default PrivateMessages;
