@@ -49,7 +49,7 @@ function PrivateMessages() {
         value={seletedITems[1]}
         onSelect={handleUpdateSelectedItems(1)}
         options={MESSAGE_FLOWS}
-        listTitle
+        showTitle
       />
 
       {seletedITems.length === 3 && (
@@ -58,7 +58,7 @@ function PrivateMessages() {
           value={seletedITems[2]}
           onSelect={handleUpdateSelectedItems(2)}
           options={SINGLE_MESSAGES}
-          listTitle
+          showTitle
         />
       )}
     </>

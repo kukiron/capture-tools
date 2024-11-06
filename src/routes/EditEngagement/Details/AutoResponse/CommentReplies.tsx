@@ -3,7 +3,6 @@ import { useState } from 'react';
 import { Select, TextInput } from 'components';
 
 const COMMENT_TYPES = ['Static', 'Open AI'] as const;
-
 type CommentTypes = (typeof COMMENT_TYPES)[number];
 
 const STATIC_COMMENTS = [

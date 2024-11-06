@@ -35,6 +35,8 @@ function KeywordsInput({ label }: { label: string }) {
       <div className="label">
         <span className="label-text">{label}</span>
       </div>
+
+      {/* render current keywords using badge */}
       <div className="mb-2.5">
         {keywords.map((keyword) => (
           <Badge key={keyword} remove={() => handleRemoveKeyword(keyword)}>

@@ -10,7 +10,6 @@ import {
   NAVBAR_RESOURCES,
 } from 'lib/constatns';
 import { AppTheme } from 'store/types';
-
 import { showToast } from 'store/reducers/toast';
 import Icon from './Icon';
 
@@ -30,7 +29,7 @@ function Navbar() {
 
   return (
     <div className="navbar fixed z-20 border-b border-b-base-300 bg-base-100">
-      {/* ----- Company logo ----- */}
+      {/* ----- Company account logo ----- */}
       <div className="lg:px-2">
         <Link className="hidden lg:block" to={DEFAULT_ROUTE}>
           <div className="avatar">
@@ -44,7 +43,7 @@ function Navbar() {
         </Link>
       </div>
 
-      {/* ----- Account link ----- */}
+      {/* ----- Ueer account link ----- */}
       <div className="flex-1 pl-3">
         <div className="breadcrumbs text-base">
           <ul className="rounded-md border border-base-300 bg-base-100 px-2 py-[.32rem]">

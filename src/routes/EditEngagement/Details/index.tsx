@@ -3,7 +3,6 @@ import Settings from './Settings';
 import AutoResponse from './AutoResponse';
 
 const TABS = ['Settings', 'Auto Response'] as const;
-
 type Tab = (typeof TABS)[number];
 
 function MainSection() {

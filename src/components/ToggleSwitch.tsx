@@ -4,7 +4,7 @@ type Props = {
   onChange?: (value: boolean) => void;
 };
 
-function ToggleSwitch({ label, value, onChange }: Props) {
+function ToggleSwitch({ label, value = false, onChange }: Props) {
   return (
     <div className="flex flex-row items-center justify-between">
       <div className="opacity-60">{label}</div>

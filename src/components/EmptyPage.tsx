@@ -4,7 +4,7 @@ type Props = {
   imageUrl: string;
 };
 
-function EmptyPage({ title, description, imageUrl }: Props) {
+function EmptyPage({ title, description = '', imageUrl }: Props) {
   return (
     <div className="lg:col-span-7">
       <div className="px-6">

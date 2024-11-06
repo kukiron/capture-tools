@@ -48,6 +48,7 @@ function PostEngagements() {
   const [loading, setLoading] = useState(false);
 
   const handleFetchData = useCallback(async () => {
+    // do NOT fetch data if items already exist
     if (storedItems.length) return;
 
     setLoading(true);
@@ -61,7 +62,7 @@ function PostEngagements() {
     dispatch(addPostEngagements(result));
     setTableItems(result);
     setLoading(false);
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [storedItems.length, dispatch]);
 
   const handleSearchItems = useDebounce((text: string) => {
     if (!text) {
@@ -164,16 +165,16 @@ function PostEngagements() {
       inputRef.current.indeterminate = false;
       inputRef.current.checked = false;
     }
-  }, [tableItems]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [tableItems, dispatch]);
 
   useEffect(() => {
     handleFetchData();
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [handleFetchData]);
 
   // update table content when search query changes
   useEffect(() => {
     handleSearchItems(searchQuery);
-  }, [searchQuery]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [searchQuery, handleSearchItems]);
 
   if (loading) {
     return <TableSkeleton />;

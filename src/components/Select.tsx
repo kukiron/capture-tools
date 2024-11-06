@@ -2,11 +2,11 @@ type Props = {
   label: string;
   value: string;
   options: string[];
-  listTitle?: boolean;
+  showTitle?: boolean;
   onSelect: (value: string) => void;
 };
 
-function Select({ label, value, options, listTitle = false, onSelect }: Props) {
+function Select({ label, value, options, showTitle = false, onSelect }: Props) {
   return (
     <div className="form-control">
       <div className="label">
@@ -21,7 +21,7 @@ function Select({ label, value, options, listTitle = false, onSelect }: Props) {
           value={value}
           onChange={(e) => onSelect(e.target.value)}
         >
-          {listTitle && (
+          {showTitle && (
             <option value="" disabled>
               Select
             </option>
