@@ -10,6 +10,7 @@ type Tab = (typeof TABS)[number];
 function SelectSection() {
   const dispatch = useAppDispatch();
   const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
+  const [input, setInput] = useState('');
 
   return (
     <div className="basis-3/5">
@@ -39,13 +40,16 @@ function SelectSection() {
             <input
               placeholder="Post ID / URL"
               className="input join-item input-bordered w-96 focus:outline-offset-0"
-              defaultValue=""
+              // defaultValue=""
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
             />
             <button
               className="btn btn-primary join-item"
-              onClick={() => {
-                dispatch(showToast({ message: DEFAULT_TOAST_MESSAGE }));
-              }}
+              onClick={() =>
+                Boolean(input.trim()) &&
+                dispatch(showToast({ message: DEFAULT_TOAST_MESSAGE }))
+              }
             >
               Grab Post
             </button>
