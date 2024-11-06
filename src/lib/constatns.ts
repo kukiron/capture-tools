@@ -50,7 +50,7 @@ export const MAIN_MENU: MenuItem[] = [
     icon: 'add-post',
   },
   {
-    text: 'Send to Messenger',
+    text: 'Send To Messenger',
     icon: 'messenger',
   },
 ];
@@ -80,6 +80,18 @@ export const NAVBAR_PROFILE: MenuItem[] = [
   { text: 'Logout', icon: 'logout' },
 ];
 
+export const SIDENAV_ITEMS: { name: string; icon: IconName }[] = [
+  { name: 'Dashboard', icon: 'dashboard' },
+  { name: 'Audience', icon: 'users' },
+  { name: 'Chat', icon: 'chat' },
+  { name: 'Post Engagement', icon: 'engagement' },
+  { name: 'Broadcasts', icon: 'broadcast' },
+  { name: 'Automation', icon: 'automation' },
+  { name: "Waht's This?", icon: 'stacks' },
+  { name: 'Insights', icon: 'graph' },
+  { name: 'Settings', icon: 'gear' },
+];
+
 export const TOAST_ICONS: { [key: string]: IconName } = {
   success: 'check-circle',
   error: 'close-circle',
@@ -87,6 +99,15 @@ export const TOAST_ICONS: { [key: string]: IconName } = {
   warning: 'warning-circle',
 };
 
-export const TOAST_TYPES = ['success', 'error', 'info', 'warning'];
+export const TOAST_TYPES = ['success', 'error', 'info', 'warning'] as const;
 
-export const POST_REACTIONS = ['like', 'love', 'haha', 'wow', 'sad', 'angry'];
+export const TOOLTIP_POSITIONS = ['top', 'right', 'bottom', 'left'] as const;
+
+export const POST_REACTIONS = [
+  'like',
+  'love',
+  'haha',
+  'wow',
+  'sad',
+  'angry',
+] as const;
