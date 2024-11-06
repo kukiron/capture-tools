@@ -1,0 +1,5 @@
+[[redirects]]
+  from = "/capture-tools/post-engagement"
+  to = "/"
+  status = 301
+  force = true
