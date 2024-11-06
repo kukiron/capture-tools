@@ -17,6 +17,11 @@ export const DEFAULT_ROUTE = '/capture-tools/post-engagement';
 
 export const DEFAULT_TOAST_MESSAGE = 'Feature not avaiable!';
 
+export const INSTAGRAM_IMAGE_URL =
+  'https://app.dev.clepher.com/images/platform/instagram.svg';
+export const MESSENGER_IMAGE_URL =
+  'https://app.dev.clepher.com/images/platform/messenger-blurple.svg';
+
 export const COMPONENT_ROUTES: { [key: string]: () => JSX.Element } = {
   'post-engagement': PostEngagement,
   'links-library': LinksLibrary,

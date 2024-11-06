@@ -9,7 +9,12 @@ import { useNavigate } from 'react-router-dom';
 // import { MOCK_DATA } from 'data/mock';
 import { useAppDispatch, useDebounce } from 'hooks';
 import { fetchPostEngagementData } from 'data/api';
-import { DEFAULT_ROUTE, DEFAULT_TOAST_MESSAGE } from 'lib/constatns';
+import {
+  DEFAULT_ROUTE,
+  DEFAULT_TOAST_MESSAGE,
+  INSTAGRAM_IMAGE_URL,
+  MESSENGER_IMAGE_URL,
+} from 'lib/constatns';
 import { showToast } from 'store/reducers/toast';
 import {
   addPostEngagements,
@@ -20,8 +25,6 @@ import type { PostEngagement } from 'store/types';
 import { EmptyPage, Pagination, TableSkeleton } from 'components';
 import PageHeader from './PageHeader';
 
-import Instagram from 'assets/images/platform/instagram.png';
-import Messenger from 'assets/images/platform/messenger.png';
 import EmptyListImg from 'assets/images/empty-list.png';
 
 const ACCOUNT_MENU = ['Edit', 'Rename', 'Delete'];
@@ -261,14 +264,14 @@ function PostEngagements() {
                   </td>
 
                   {/* Platform image column */}
-                  <td className="w-10">
+                  <td className="w-10 flex-shrink-0">
                     <img
-                      className="h-4 w-4"
+                      className="h-3.5 w-3.5"
                       alt={row.platform}
                       src={
                         row.platform.toLowerCase() === 'instagram'
-                          ? Instagram
-                          : Messenger
+                          ? INSTAGRAM_IMAGE_URL
+                          : MESSENGER_IMAGE_URL
                       }
                     />
                   </td>
@@ -293,7 +296,7 @@ function PostEngagements() {
                         role="button"
                         className="btn btn-outline btn-xs"
                       >
-                        Actions
+                        Action
                       </div>
                       <ul
                         tabIndex={0}
