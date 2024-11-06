@@ -1,8 +1,8 @@
 import { isAction, Middleware } from '@reduxjs/toolkit';
 
-import { toggleTheme } from '../reducers/theme';
 import { StoreAPI } from 'store/types';
 import { showToast } from 'store/reducers/toast';
+import { toggleTheme } from '../reducers/theme';
 
 const theme: Middleware<{}, any> =
   ({ dispatch }: StoreAPI) =>
@@ -10,8 +10,8 @@ const theme: Middleware<{}, any> =
   (action: unknown) => {
     if (isAction(action) && toggleTheme.match(action)) {
       const { payload: newTheme } = action;
-      // set new theme
-      document.querySelector('html')?.setAttribute('data-theme', newTheme);
+      // store the theme in local storage
+      localStorage.setItem('theme', newTheme);
       // show toast message
       dispatch(showToast({ message: 'App theme updated.', type: 'success' }));
     }

@@ -12,8 +12,8 @@ module.exports = {
   plugins: [require('daisyui')],
   // daisyUI config (optional - here are the default values)
   daisyui: {
-    themes: ['winter', 'night'],
-    darkTheme: 'night',
+    themes: ['night', 'winter'],
+    // darkTheme: 'night',
   },
   safelist: [
     ...TOAST_TYPES.map((type) => `alert-${type || 'info'}`),

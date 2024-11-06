@@ -12,20 +12,27 @@ import {
 import { AppTheme } from 'store/types';
 import { showToast } from 'store/reducers/toast';
 import Icon from './Icon';
+import { useEffect } from 'react';
 
 function Navbar() {
   const dispatch = useAppDispatch();
 
-  const theme = useSelector(selectTheme);
+  const storedTheme = useSelector(selectTheme);
 
   const handleToggleTheme = () => {
-    const newTheme = theme === AppTheme.light ? AppTheme.dark : AppTheme.light;
+    const newTheme =
+      storedTheme === AppTheme.light ? AppTheme.dark : AppTheme.light;
     dispatch(toggleTheme(newTheme));
   };
 
   const handleDisplayToast = () => {
     dispatch(showToast({ message: DEFAULT_TOAST_MESSAGE }));
   };
+
+  // set theme on app mount from store
+  useEffect(() => {
+    document.querySelector('html')?.setAttribute('data-theme', storedTheme);
+  }, [storedTheme]);
 
   return (
     <div className="navbar fixed z-20 border-b border-b-base-300 bg-base-100">

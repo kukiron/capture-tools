@@ -2,9 +2,12 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { AppTheme } from '../types';
 
+// get initial state from local storage
+const initialState = localStorage.getItem('theme') || AppTheme.dark;
+
 export const theme = createSlice({
   name: 'theme',
-  initialState: AppTheme.dark,
+  initialState,
   reducers: {
     toggleTheme: (_, action: PayloadAction<AppTheme>) => action.payload,
   },
