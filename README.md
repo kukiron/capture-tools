@@ -1,5 +1,7 @@
 # Capture Tools
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/d67939d4-21b1-49c7-9cb4-3a3ba4de3b5e/deploy-status)](https://app.netlify.com/sites/capture-tools/deploys)
+
 This app displays the capture tools section of clepher app, mainly the Post Engagement pages.
 
 ## Getting Started
