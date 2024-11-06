@@ -1,8 +1,10 @@
-import { AppMenu, Navbar, Toast } from 'components';
-import { getAppPathName } from 'lib/common';
-import { COMPONENT_ROUTES, DEFAULT_ROUTE } from 'lib/constatns';
 import { ReactNode } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
+
+import { getAppPathName } from 'lib/common';
+import { COMPONENT_ROUTES, DEFAULT_ROUTE } from 'lib/constatns';
+
+import { AppMenu, Navbar, SideNav, Toast } from 'components';
 import EditEngagement from 'routes/EditEngagement';
 
 function AppContainer({ children }: { children: ReactNode }) {
@@ -13,6 +15,8 @@ function AppContainer({ children }: { children: ReactNode }) {
         <div className="drawer-content">
           <div className="pt-24">{children}</div>
         </div>
+
+        <SideNav />
       </div>
 
       <Toast />
