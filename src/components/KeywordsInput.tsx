@@ -12,10 +12,14 @@ function KeywordsInput({ label }: { label: string }) {
   const [keywords, setKeywords] = useState<string[]>([]);
 
   const handleAddKeyword = () => {
-    setKeywords(uniq([...keywords, input.trim()])); // remove duplicates
+    const newText = input.trim();
+
+    if (!newText) return;
+
+    setKeywords(uniq([...keywords, newText])); // remove duplicates
     setInput(''); // clear input after adding keyword
 
-    if (keywords.includes(input.trim())) {
+    if (keywords.includes(newText)) {
       dispatch(
         showToast({ message: 'Keyword already exists!', type: 'warning' })
       );
