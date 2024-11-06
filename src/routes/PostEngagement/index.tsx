@@ -1,5 +1,7 @@
 import chunk from 'lodash/chunk';
+import filter from 'lodash/filter';
 import keys from 'lodash/keys';
+import map from 'lodash/map';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -15,12 +17,12 @@ import {
   selectPostEngagements,
 } from 'store/reducers/postEngagements';
 import type { PostEngagement } from 'store/types';
-import { Pagination, TableSkeleton } from 'components';
+import { EmptyPage, Pagination, TableSkeleton } from 'components';
 import PageHeader from './PageHeader';
 
 import Instagram from 'assets/images/platform/instagram.png';
 import Messenger from 'assets/images/platform/messenger.png';
-import { filter, map } from 'lodash';
+import EmptyListImg from 'assets/images/empty-list.png';
 
 const ACCOUNT_MENU = ['Edit', 'Rename', 'Delete'];
 
@@ -28,9 +30,11 @@ function PostEngagements() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const { data: storedItems, itemsPerPage } = useSelector(
-    selectPostEngagements
-  );
+  const {
+    data: storedItems,
+    itemsPerPage,
+    pageSize,
+  } = useSelector(selectPostEngagements);
 
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -170,6 +174,17 @@ function PostEngagements() {
 
   if (loading) {
     return <TableSkeleton />;
+  }
+
+  // render empty page
+  if (!tableItems.length && !pageSize) {
+    return (
+      <EmptyPage
+        title="Post Engagement"
+        description="Empty list. No data available."
+        imageUrl={EmptyListImg}
+      />
+    );
   }
 
   // formatted items shown in the current page

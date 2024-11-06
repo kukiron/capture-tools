@@ -1,7 +1,15 @@
-import { ComingSoon } from 'components';
+import { EmptyPage } from 'components';
+
+import ComingSoonImg from 'assets/images/coming-soon.png';
 
 function SendToMessenger() {
-  return <ComingSoon />;
+  return (
+    <EmptyPage
+      title="Send To Messenger"
+      description="Feature coming soon..."
+      imageUrl={ComingSoonImg}
+    />
+  );
 }
 
 export default SendToMessenger;
