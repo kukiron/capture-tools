@@ -9,9 +9,15 @@ const postEngagements: Middleware<{}, any> =
   (next) =>
   (action: unknown) => {
     if (isAction(action) && deletePostEngagements.match(action)) {
+      const { payload } = action;
       // show toast message when items are deleted
       dispatch(
-        showToast({ message: 'Post engagements deleted.', type: 'success' })
+        showToast({
+          message: !payload.length
+            ? 'No item selected.'
+            : 'Post engagements deleted.',
+          type: !payload.length ? 'error' : 'success',
+        })
       );
     }
 
