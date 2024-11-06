@@ -1,17 +1,23 @@
 import { useState } from 'react';
+import { useAppDispatch } from 'hooks';
 
-const tabs = ['Select A Post', 'Post ID / URL'] as const;
-type Tab = (typeof tabs)[number];
+import { DEFAULT_TOAST_MESSAGE } from 'lib/constatns';
+import { showToast } from 'store/reducers/toast';
+
+const TABS = ['Select A Post', 'Post ID / URL'] as const;
+type Tab = (typeof TABS)[number];
 
 function SelectSection() {
-  const [activeTab, setActiveTab] = useState<Tab>(tabs[0]);
+  const dispatch = useAppDispatch();
+  const [activeTab, setActiveTab] = useState<Tab>(TABS[0]);
+
   return (
     <div className="basis-3/5">
       <div
         role="tablist"
         className="tabs-boxed tabs tabs-lg h-12 rounded-b-none border-b border-b-base-300 bg-base-100 p-0 *:!rounded-none"
       >
-        {tabs.map((tab) => (
+        {TABS.map((tab) => (
           <a
             key={tab}
             role="tab"
@@ -35,7 +41,14 @@ function SelectSection() {
               className="input join-item input-bordered w-96 focus:outline-offset-0"
               defaultValue=""
             />
-            <button className="btn btn-primary join-item">Grab Post</button>
+            <button
+              className="btn btn-primary join-item"
+              onClick={() => {
+                dispatch(showToast({ message: DEFAULT_TOAST_MESSAGE }));
+              }}
+            >
+              Grab Post
+            </button>
           </div>
         )}
       </div>

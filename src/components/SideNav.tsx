@@ -17,10 +17,10 @@ function SideNav() {
       {SIDENAV_ITEMS.map(({ name, icon }) => (
         <li
           key={name}
-          onClick={() => name !== 'Post Engagement' && handleClick()}
+          onClick={() => name !== 'Capture tools' && handleClick()}
         >
           <span
-            className={`${name === 'Post Engagement' ? 'active' : ''} cursor-pointer p-0`}
+            className={`${name === 'Capture tools' ? 'active' : ''} cursor-pointer p-0`}
           >
             <Tooltip text={name} position="right">
               <Icon name={icon} className="h-5 w-5" />
