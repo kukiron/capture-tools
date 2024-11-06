@@ -15,24 +15,23 @@ function PostReactions() {
     setReactions((prev) => prev.filter((text) => text !== reaction));
   };
 
-  const renderReactionIcon = (reaction: string) => {
-    return <span className={`like-btn-${reaction} inline pr-5`}></span>;
-  };
-
   return (
     <>
       <h1 className="sub-header">Require a Post Reaction</h1>
       <br />
 
-      {reactions.map((reaction) => (
-        <Badge
-          key={reaction}
-          icon={renderReactionIcon(reaction)}
-          remove={() => handleRemoveReaction('positive')}
-        >
-          {reaction}
-        </Badge>
-      ))}
+      {reactions.map((reaction) => {
+        const Icon = <span className={`like-btn-${reaction} inline pr-5`} />;
+        return (
+          <Badge
+            key={reaction}
+            icon={Icon}
+            remove={() => handleRemoveReaction('positive')}
+          >
+            {reaction}
+          </Badge>
+        );
+      })}
 
       <div className="mt-2.5">
         <span id="add_positive_reaction">

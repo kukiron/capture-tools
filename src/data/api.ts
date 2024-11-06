@@ -23,7 +23,7 @@ const RawAppData = {
 // A common mock fetch utility to fetch app data
 const fetchAppData = <T>(type: AppDataType): Promise<MockFetchResponse<T>> =>
   new Promise(async (resolve) => {
-    await delay(Math.random() * 1000);
+    await delay(Math.random() * 5000);
     resolve({
       json: () => RawAppData[type] as T,
     });

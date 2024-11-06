@@ -4,7 +4,7 @@ import CommentReplies from './CommentReplies';
 function AutoResponse() {
   return (
     <>
-      <div style={{ opacity: 1, transform: 'none', zIndex: 1 }}>
+      <div className="z-10 opacity-100">
         <ToggleSwitch label="Enable To Automatically Like Comments" />
         <br />
 

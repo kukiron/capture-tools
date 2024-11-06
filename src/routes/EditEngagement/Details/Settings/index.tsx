@@ -5,7 +5,7 @@ import PostReactions from './Reactions';
 function Settings() {
   return (
     <>
-      <div style={{ zIndex: 1, opacity: 1, transform: 'none' }}>
+      <div className="z-10 opacity-100">
         <ToggleSwitch label="Enable To Privately Reply To First-Level Comments Only" />
         <ToggleSwitch label="Send Message To The Same User Only Once Per Post" />
         <br />
