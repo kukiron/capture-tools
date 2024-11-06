@@ -2,8 +2,6 @@ import Breadcrumbs from './Breadcrumbs';
 import EngagementDetails from './Details';
 import SelectSection from './Selection';
 
-import './styles/index.css';
-
 function EditEngagement() {
   return (
     <>

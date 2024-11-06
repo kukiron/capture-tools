@@ -7,6 +7,8 @@ import { COMPONENT_ROUTES, DEFAULT_ROUTE } from 'lib/constatns';
 import { AppMenu, Navbar, SideNav, Toast } from 'components';
 import EditEngagement from 'routes/EditEngagement';
 
+import 'styles/index.css';
+
 function AppContainer({ children }: { children: ReactNode }) {
   return (
     <div className="min-h-screen w-full bg-base-200">

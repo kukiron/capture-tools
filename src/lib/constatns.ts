@@ -84,10 +84,10 @@ export const SIDENAV_ITEMS: { name: string; icon: IconName }[] = [
   { name: 'Dashboard', icon: 'dashboard' },
   { name: 'Audience', icon: 'users' },
   { name: 'Chat', icon: 'chat' },
-  { name: 'Post Engagement', icon: 'engagement' },
+  { name: 'Capture tools', icon: 'engagement' },
   { name: 'Broadcasts', icon: 'broadcast' },
   { name: 'Automation', icon: 'automation' },
-  { name: "Waht's This?", icon: 'stacks' },
+  { name: "Waht's this?", icon: 'stacks' },
   { name: 'Insights', icon: 'graph' },
   { name: 'Settings', icon: 'gear' },
 ];
