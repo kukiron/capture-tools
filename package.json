@@ -48,7 +48,7 @@
     ]
   },
   "devDependencies": {
-    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "@babel/plugin-transform-private-property-in-object": "^7.25.9",
     "@types/lodash.chunk": "^4.2.9",
     "@types/redux-logger": "^3.0.13",
     "autoprefixer": "^10.4.20",
