@@ -24,7 +24,7 @@ function SideNav() {
   };
 
   return (
-    <div className="min-h-screen">
+    <div className="hidden min-h-screen lg:block">
       <ul className="menu min-h-full border-r border-r-base-300 bg-base-100 pt-20">
         {SIDENAV_ITEMS.map(({ name, icon }) => (
           <li key={name} onClick={() => handleClick(name)}>
