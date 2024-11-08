@@ -1,13 +1,10 @@
-import chunk from 'lodash/chunk';
-import filter from 'lodash/filter';
+import includes from 'lodash/includes';
 import keys from 'lodash/keys';
-import map from 'lodash/map';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-// import { MOCK_DATA } from 'data/mock';
-import { useAppDispatch, useDebounce } from 'hooks';
+import { useAppDispatch } from 'hooks';
 import { fetchPostEngagementData } from 'data/api';
 import {
   DEFAULT_ROUTE,
@@ -21,7 +18,10 @@ import {
   deletePostEngagements,
   selectPostEngagements,
 } from 'store/reducers/postEngagements';
-import type { PostEngagement } from 'store/types';
+import {
+  getCurrentPageItems,
+  searchPostEngagements,
+} from 'store/selectors/postEngagements';
 import { EmptyPage, Pagination, TableSkeleton } from 'components';
 import PageHeader from './PageHeader';
 
@@ -33,23 +33,29 @@ function PostEngagements() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const {
-    data: storedItems,
-    itemsPerPage,
-    pageSize,
-  } = useSelector(selectPostEngagements);
-
   const inputRef = useRef<HTMLInputElement>(null);
 
-  // state containing post engagement items for table view
-  const [tableItems, setTableItems] = useState<PostEngagement[]>(storedItems);
+  // state for selected items in the table
+  const [selectedIds, setSelectedIds] = useState<number[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [loading, setLoading] = useState(false);
 
+  const {
+    data: originalItems,
+    itemsPerPage,
+    pageSize,
+  } = useSelector(selectPostEngagements);
+  // items available in the table after searching
+  const tableItems = useSelector(searchPostEngagements(searchQuery));
+  // items availabe in current page
+  const currentPageItems = useSelector(
+    getCurrentPageItems(currentPage, searchQuery)
+  );
+
   const handleFetchData = useCallback(async () => {
     // do NOT fetch data if items already exist
-    if (storedItems.length) return;
+    if (originalItems.length) return;
 
     setLoading(true);
     const { success, message, result } = await fetchPostEngagementData();
@@ -60,35 +66,19 @@ function PostEngagements() {
     }
 
     dispatch(addPostEngagements(result));
-    setTableItems(result);
     setLoading(false);
-  }, [storedItems.length, dispatch]);
-
-  const handleSearchItems = useDebounce((text: string) => {
-    if (!text) {
-      setTableItems(storedItems);
-      return;
-    }
-
-    setTableItems(
-      storedItems.filter((item) =>
-        item.name.toLowerCase().includes(text.toLowerCase())
-      )
-    );
-  });
+  }, [originalItems.length, dispatch]);
 
   const handleSelectItem = useCallback(
     (itemId: number) => {
-      const newList = tableItems.map((item) => ({
-        ...item,
-        selected: item.id === itemId ? !item.selected : item.selected,
-      }));
-
-      setTableItems(newList);
-
       if (!inputRef.current) return;
 
-      const selectedCount = newList.filter((item) => item.selected).length;
+      const newList = selectedIds.includes(itemId)
+        ? selectedIds.filter((id) => id !== itemId)
+        : [...selectedIds, itemId];
+      const selectedCount = newList.length;
+
+      setSelectedIds(newList);
 
       // update header checkbox state when clicking item checkbox in the table
       // triggeres change before state update
@@ -98,12 +88,12 @@ function PostEngagements() {
           break;
         }
 
-        case selectedCount > 0 && selectedCount < storedItems.length: {
+        case selectedCount > 0 && selectedCount < originalItems.length: {
           inputRef.current.indeterminate = true;
           break;
         }
 
-        case selectedCount === storedItems.length: {
+        case selectedCount === originalItems.length: {
           inputRef.current.indeterminate = false;
           inputRef.current.checked = true;
           break;
@@ -113,38 +103,36 @@ function PostEngagements() {
           break;
       }
     },
-    [tableItems, storedItems.length]
+    [selectedIds, originalItems.length]
   );
 
   const handleUpdateHeaderCheckbox = useCallback(() => {
     if (!inputRef.current) return;
 
-    const selectedCount = tableItems.filter((item) => item.selected).length;
+    const selectedCount = selectedIds.length;
 
     // update header checkbox state when clicking on that
     // triggeres change after state update
     switch (true) {
       case selectedCount === 0:
-      case selectedCount > 0 && selectedCount < storedItems.length: {
+      case selectedCount > 0 && selectedCount < originalItems.length: {
         inputRef.current.checked = true;
-        setTableItems((prevItems) =>
-          prevItems.map((item) => ({ ...item, selected: true }))
-        );
+        // all items are selected
+        setSelectedIds(originalItems.map(({ id }) => id));
         break;
       }
 
-      case selectedCount === storedItems.length: {
+      case selectedCount === originalItems.length: {
         inputRef.current.checked = false;
-        setTableItems((prevItems) =>
-          prevItems.map((item) => ({ ...item, selected: false }))
-        );
+        // all items are de-selected
+        setSelectedIds([]);
         break;
       }
 
       default:
         break;
     }
-  }, [tableItems, storedItems.length]);
+  }, [selectedIds, originalItems]);
 
   const handleClickActionItem = (id: number, item: string) => {
     if (item === 'Edit') {
@@ -155,33 +143,26 @@ function PostEngagements() {
   };
 
   const handleBatchDelete = useCallback(() => {
-    dispatch(
-      deletePostEngagements(map(filter(tableItems, { selected: true }), 'id'))
-    );
-    setTableItems((prevItems) => prevItems.filter((item) => !item.selected));
+    dispatch(deletePostEngagements(selectedIds));
+    setSelectedIds([]);
 
     // update header checkbox state
     if (inputRef.current) {
       inputRef.current.indeterminate = false;
       inputRef.current.checked = false;
     }
-  }, [tableItems, dispatch]);
+  }, [selectedIds, dispatch]);
 
   useEffect(() => {
     handleFetchData();
   }, [handleFetchData]);
-
-  // update table content when search query changes
-  useEffect(() => {
-    handleSearchItems(searchQuery);
-  }, [searchQuery, handleSearchItems]);
 
   if (loading) {
     return <TableSkeleton />;
   }
 
   // render empty page
-  if (!tableItems.length && !pageSize) {
+  if (!originalItems.length && !pageSize) {
     return (
       <EmptyPage
         title="Post Engagement"
@@ -190,17 +171,6 @@ function PostEngagements() {
       />
     );
   }
-
-  // formatted items shown in the current page
-  const currentPageItems = (
-    tableItems.length > itemsPerPage
-      ? chunk(tableItems, itemsPerPage)[currentPage - 1]
-      : tableItems
-  ).map(({ name, unique, engaged, ...rest }) => ({
-    name,
-    'engaged / unique': `${engaged} / ${unique}`,
-    ...rest,
-  }));
 
   // prepare table headers
   const tableHeaders = keys(currentPageItems[0]).filter(
@@ -259,7 +229,7 @@ function PostEngagements() {
                         type="checkbox"
                         className="checkbox checkbox-sm"
                         onChange={() => handleSelectItem(row.id)}
-                        checked={Boolean(row.selected)}
+                        checked={includes(selectedIds, row.id)}
                       />
                     </div>
                   </td>
