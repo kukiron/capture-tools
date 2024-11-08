@@ -32,7 +32,7 @@ function Toast() {
   return toast ? (
     <div className="toast toast-end transition duration-500 ease-in-out">
       <div className={`alert alert-${toast.type || 'info'} gap-2`} role="alert">
-        <Icon name={iconName} className="h-4 w-4" />
+        <Icon name={iconName} className="hidden h-4 w-4 lg:block" />
         <span>{toast.message}</span>
       </div>
     </div>
