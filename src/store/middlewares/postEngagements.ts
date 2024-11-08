@@ -15,7 +15,7 @@ const postEngagements: Middleware<{}, any> =
         showToast({
           message: !payload.length
             ? 'No item selected.'
-            : 'Post engagements deleted.',
+            : `${payload.length} post engagement(s) deleted successfully.`,
           type: !payload.length ? 'error' : 'success',
         })
       );
