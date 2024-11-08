@@ -34,7 +34,7 @@ function App() {
           const Component = COMPONENT_ROUTES[path];
           return (
             <Route
-              key={`/${path}`}
+              key={path}
               path={getAppPathName(path)}
               element={
                 <div className="grid grid-cols-1 gap-0 lg:grid-cols-9">
@@ -52,7 +52,13 @@ function App() {
         />
 
         {/* root route redirects to app default route */}
-        <Route path="/" element={<Navigate replace to={DEFAULT_ROUTE} />} />
+        {['/', '*', '/capture-tools'].map((path) => (
+          <Route
+            key={path}
+            path={path}
+            element={<Navigate replace to={DEFAULT_ROUTE} />}
+          />
+        ))}
       </Routes>
     </AppContainer>
   );
