@@ -1,10 +1,10 @@
 import includes from 'lodash/includes';
 import keys from 'lodash/keys';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import { useAppDispatch } from 'hooks';
+import { useAppDispatch, useSelectTableItems } from 'hooks';
 import { fetchPostEngagementData } from 'data/api';
 import {
   DEFAULT_ROUTE,
@@ -33,10 +33,6 @@ function PostEngagements() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const inputRef = useRef<HTMLInputElement>(null);
-
-  // state for selected items in the table
-  const [selectedIds, setSelectedIds] = useState<number[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [loading, setLoading] = useState(false);
@@ -52,6 +48,9 @@ function PostEngagements() {
   const currentPageItems = useSelector(
     getCurrentPageItems(currentPage, searchQuery)
   );
+
+  const { inputRef, selectedIds, onClickItem, onClickHeader, onBatchDelete } =
+    useSelectTableItems(originalItems);
 
   const handleFetchData = useCallback(async () => {
     // do NOT fetch data if items already exist
@@ -69,71 +68,6 @@ function PostEngagements() {
     setLoading(false);
   }, [originalItems.length, dispatch]);
 
-  const handleSelectItem = useCallback(
-    (itemId: number) => {
-      if (!inputRef.current) return;
-
-      const newList = selectedIds.includes(itemId)
-        ? selectedIds.filter((id) => id !== itemId)
-        : [...selectedIds, itemId];
-      const selectedCount = newList.length;
-
-      setSelectedIds(newList);
-
-      // update header checkbox state when clicking item checkbox in the table
-      // triggeres change before state update
-      switch (true) {
-        case newList.length === 0: {
-          inputRef.current.indeterminate = false;
-          break;
-        }
-
-        case selectedCount > 0 && selectedCount < originalItems.length: {
-          inputRef.current.indeterminate = true;
-          break;
-        }
-
-        case selectedCount === originalItems.length: {
-          inputRef.current.indeterminate = false;
-          inputRef.current.checked = true;
-          break;
-        }
-
-        default:
-          break;
-      }
-    },
-    [selectedIds, originalItems.length]
-  );
-
-  const handleUpdateHeaderCheckbox = useCallback(() => {
-    if (!inputRef.current) return;
-
-    const selectedCount = selectedIds.length;
-
-    // update header checkbox state when clicking on that
-    // triggeres change after state update
-    switch (true) {
-      case selectedCount === 0:
-      case selectedCount > 0 && selectedCount < originalItems.length: {
-        inputRef.current.checked = true;
-        // all items are selected
-        setSelectedIds(originalItems.map(({ id }) => id));
-        break;
-      }
-
-      case selectedCount === originalItems.length: {
-        inputRef.current.checked = false;
-        // all items are de-selected
-        setSelectedIds([]);
-        break;
-      }
-
-      default:
-        break;
-    }
-  }, [selectedIds, originalItems]);
-
   const handleClickActionItem = (id: number, item: string) => {
     if (item === 'Edit') {
       navigate(`${DEFAULT_ROUTE}/${id}/edit`);
@@ -141,17 +75,6 @@ function PostEngagements() {
     }
     dispatch(showToast({ message: DEFAULT_TOAST_MESSAGE }));
   };
-
-  const handleBatchDelete = useCallback(() => {
-    dispatch(deletePostEngagements(selectedIds));
-    setSelectedIds([]);
-
-    // update header checkbox state
-    if (inputRef.current) {
-      inputRef.current.indeterminate = false;
-      inputRef.current.checked = false;
-    }
-  }, [selectedIds, dispatch]);
 
   useEffect(() => {
     handleFetchData();
@@ -183,7 +106,7 @@ function PostEngagements() {
         <PageHeader
           query={searchQuery}
           updateQuery={(value: string) => setSearchQuery(value)}
-          deleteItems={handleBatchDelete}
+          deleteItems={() => onBatchDelete(deletePostEngagements)}
         />
 
         <div className="overflow-y-hidden overflow-x-scroll">
@@ -198,7 +121,7 @@ function PostEngagements() {
                       type="checkbox"
                       ref={inputRef}
                       className="checkbox checkbox-sm"
-                      onChange={handleUpdateHeaderCheckbox}
+                      onChange={onClickHeader}
                     />
                   </div>
                 </th>
@@ -228,7 +151,7 @@ function PostEngagements() {
                       <input
                         type="checkbox"
                         className="checkbox checkbox-sm"
-                        onChange={() => handleSelectItem(row.id)}
+                        onChange={() => onClickItem(row.id)}
                         checked={includes(selectedIds, row.id)}
                       />
                     </div>
