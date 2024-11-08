@@ -34,7 +34,7 @@ function App() {
           const Component = COMPONENT_ROUTES[path];
           return (
             <Route
-              key={path}
+              key={`/${path}`}
               path={getAppPathName(path)}
               element={
                 <div className="grid grid-cols-1 gap-0 lg:grid-cols-9">
