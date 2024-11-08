@@ -53,6 +53,6 @@ export type PostEngagement = {
 
 export type PostEngagementResponse = {
   data: PostEngagement[];
-  pageSize: number;
-  itemsPerPage: number;
+  totalPages: number; // total number of pages
+  pageSize: number; // number of items per page
 };

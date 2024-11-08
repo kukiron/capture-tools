@@ -43,8 +43,8 @@ function PostEngagements() {
 
   const {
     data: originalItems,
-    itemsPerPage,
     pageSize,
+    totalPages,
   } = useSelector(selectPostEngagements);
   // items available in the table after searching
   const tableItems = useSelector(searchPostEngagements(searchQuery));
@@ -162,7 +162,7 @@ function PostEngagements() {
   }
 
   // render empty page
-  if (!originalItems.length && !pageSize) {
+  if (!originalItems.length && !totalPages) {
     return (
       <EmptyPage
         title="Post Engagement"
@@ -293,8 +293,8 @@ function PostEngagements() {
 
         <Pagination
           empty={tableItems.length === 0}
-          currentPage={tableItems.length > itemsPerPage ? currentPage : 1}
-          totalPages={Math.ceil(tableItems.length / itemsPerPage)}
+          currentPage={tableItems.length > pageSize ? currentPage : 1}
+          totalPages={Math.ceil(tableItems.length / pageSize)}
           updateCurrentPage={(page: number) => setCurrentPage(page)}
         />
       </div>

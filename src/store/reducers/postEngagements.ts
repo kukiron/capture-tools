@@ -8,8 +8,8 @@ const ITEMS_PER_PAGE = 10;
 
 const initialState: PostEngagementResponse = {
   data: [],
-  pageSize: 1,
-  itemsPerPage: ITEMS_PER_PAGE,
+  totalPages: 1,
+  pageSize: ITEMS_PER_PAGE,
 };
 
 export const postEngagement = createSlice({
@@ -21,7 +21,7 @@ export const postEngagement = createSlice({
       return {
         ...state,
         data: updatedList,
-        pageSize: Math.ceil(updatedList.length / state.itemsPerPage),
+        totalPages: Math.ceil(updatedList.length / state.pageSize),
       };
     },
     deletePostEngagements: (state, action: PayloadAction<number[]>) => {
@@ -33,7 +33,7 @@ export const postEngagement = createSlice({
       return {
         ...state,
         data: updatedList,
-        pageSize: Math.ceil(updatedList.length / state.itemsPerPage),
+        totalPages: Math.ceil(updatedList.length / state.pageSize),
       };
     },
   },
