@@ -1,12 +1,14 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 import { MAIN_MENU } from 'lib/constatns';
 import { getAppPathName } from 'lib/common';
 import Icon from './Icon';
 
+const formatText = (text: string) => text.toLowerCase().replace(/ /g, '-');
+
 function AppMenu() {
-  const [feature, setFeature] = useState(MAIN_MENU[4].text); // Post Engagement by default
+  const { pathname } = useLocation();
+  const currentPath = pathname.split('/').pop() || '';
 
   return (
     <div className="col-span-2 hidden px-6 lg:block">
@@ -20,8 +22,7 @@ function AppMenu() {
           <li key={text}>
             <Link
               to={getAppPathName(text)}
-              className={text === feature ? 'active' : ''}
-              onClick={() => setFeature(text)}
+              className={formatText(text) === currentPath ? 'active' : ''}
             >
               <Icon name={icon} className="h-4 w-4" />
               {text}

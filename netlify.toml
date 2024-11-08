@@ -1,5 +1,5 @@
 [[redirects]]
-  from = "/capture-tools/post-engagement"
+  from = "/capture-tools/*"
   to = "/"
   status = 301
   force = true
