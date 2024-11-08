@@ -52,13 +52,7 @@ function App() {
         />
 
         {/* root route redirects to app default route */}
-        {['/', '*', '/capture-tools'].map((path) => (
-          <Route
-            key={path}
-            path={path}
-            element={<Navigate replace to={DEFAULT_ROUTE} />}
-          />
-        ))}
+        <Route path="/" element={<Navigate replace to={DEFAULT_ROUTE} />} />
       </Routes>
     </AppContainer>
   );
