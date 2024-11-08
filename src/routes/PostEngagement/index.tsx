@@ -38,7 +38,7 @@ function PostEngagements() {
   const [loading, setLoading] = useState(false);
 
   const {
-    data: originalItems,
+    data: storedItems,
     pageSize,
     totalPages,
   } = useSelector(selectPostEngagements);
@@ -50,11 +50,11 @@ function PostEngagements() {
   );
 
   const { inputRef, selectedIds, onClickItem, onClickHeader, onBatchDelete } =
-    useSelectTableItems(originalItems);
+    useSelectTableItems(storedItems);
 
   const handleFetchData = useCallback(async () => {
     // do NOT fetch data if items already exist
-    if (originalItems.length) return;
+    if (storedItems.length) return;
 
     setLoading(true);
     const { success, message, result } = await fetchPostEngagementData();
@@ -66,7 +66,7 @@ function PostEngagements() {
 
     dispatch(addPostEngagements(result));
     setLoading(false);
-  }, [originalItems.length, dispatch]);
+  }, [storedItems.length, dispatch]);
 
   const handleClickActionItem = (id: number, item: string) => {
     if (item === 'Edit') {
@@ -85,7 +85,7 @@ function PostEngagements() {
   }
 
   // render empty page
-  if (!originalItems.length && !totalPages) {
+  if (!storedItems.length && !totalPages) {
     return (
       <EmptyPage
         title="Post Engagement"

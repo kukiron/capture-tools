@@ -1,6 +1,7 @@
 import { useCallback, useRef, useState } from 'react';
-import useAppDispatch from './useAppDispatch';
 import { UnknownAction } from '@reduxjs/toolkit';
+
+import useAppDispatch from './useAppDispatch';
 
 // Common item type for the table
 type Item = {
