@@ -1,10 +1,11 @@
+import { useState } from 'react';
+
 type Props = {
   label: string;
-  value?: boolean;
-  onChange?: (value: boolean) => void;
 };
 
-function ToggleSwitch({ label, value = false, onChange }: Props) {
+function ToggleSwitch({ label }: Props) {
+  const [value, setValue] = useState(false);
   return (
     <div className="flex flex-row items-center justify-between">
       <div className="opacity-60">{label}</div>
@@ -13,7 +14,7 @@ function ToggleSwitch({ label, value = false, onChange }: Props) {
           type="checkbox"
           className="toggle toggle-primary"
           checked={value}
-          onChange={(e) => onChange?.(e.target.checked)}
+          onChange={(e) => setValue(e.target.checked)}
         />
       </div>
     </div>
